@@ -25,7 +25,7 @@ public class OutputView {
     }
 
     public void printWinningStatistic(Map<Reward, Integer> winningStatistic) {
-        //스트림 이용할 것
+        //스트림 이용할 수 있을까?
         for (Map.Entry<Reward, Integer> entry : winningStatistic.entrySet()) {
             System.out.println(entry.getKey().getSentence() + " - " + entry.getValue() + "개");
         }

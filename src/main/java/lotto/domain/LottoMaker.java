@@ -5,7 +5,7 @@ import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LottoMachine {
+public class LottoMaker {
     public List<Lotto> publishLottosByPurchaseAmount(int purchaseAmount) {
         List<Lotto> lottos = new ArrayList<>();
         for (int i = 0; i < purchaseAmount / 1000; i++) {

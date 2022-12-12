@@ -1,7 +1,7 @@
 package lotto;
 
 import lotto.domain.Lotto;
-import lotto.domain.LottoMachine;
+import lotto.domain.LottoMaker;
 import lotto.domain.Reward;
 import lotto.domain.WinningLotto;
 import lotto.view.InputView;
@@ -17,7 +17,7 @@ public class LottoGame {
 
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
-    LottoMachine lottoMachine = new LottoMachine();
+    LottoMaker lottoMaker = new LottoMaker();
     List<Lotto> lottos;
     WinningLotto winningLotto;
     EnumMap<Reward, Integer> winningStatistic = new EnumMap<>(Reward.class);
@@ -27,7 +27,7 @@ public class LottoGame {
         try {
             // 입력 , 구매
             purchaseAmount = inputView.askPurchaseAmount();
-            lottos = lottoMachine.publishLottosByPurchaseAmount(purchaseAmount);
+            lottos = lottoMaker.publishLottosByPurchaseAmount(purchaseAmount);
             outputView.printLottos(lottos);
 
             // 당첨번호 입력, 보너스 번호 입력
@@ -51,7 +51,7 @@ public class LottoGame {
 
     public void calculateHit() {
         initializeWinningStatistic();
-        //일단 구현하고 Stream 을 생각해보자
+        // stream을 이용할 수 있을까?
         for (int i = 0; i < lottos.size(); i++) {
             int hitCount = winningLotto.calculateHit(lottos.get(i));
             int bonusHit = winningLotto.calculateBonus(lottos.get(i));

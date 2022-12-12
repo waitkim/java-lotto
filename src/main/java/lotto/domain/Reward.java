@@ -10,11 +10,12 @@ public enum Reward {
     private final int reward;
     private final String sentence;
 
-    // 계산을 위해 어쩔 수 없이
+    // 계산을 위해 어쩔 수 없이 -> 없앨 방법 생각
     public int getReward() {
         return reward;
     }
 
+    // 출력을 위해 어쩔 수 없이 -> 없앨 방법 생각
     public String getSentence() {
         return sentence;
     }
