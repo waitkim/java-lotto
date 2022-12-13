@@ -24,10 +24,9 @@ public class Lotto {
 
     public int compareNumber(Lotto lotto) {
         int count = 0;
-        // 인덴트 줄일 수 없을까? equals 오버라이딩하면 contain 쓸 수 있나?
         for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                 count += numbers.get(i).isHit(lotto.numbers.get(j));
+            if (lotto.hitCount(numbers.get(i))) {
+                count += 1;
             }
         }
         return count;
@@ -39,6 +38,10 @@ public class Lotto {
             bonus += 1;
         }
         return bonus;
+    }
+
+    private boolean hitCount(LottoNumber lottoNumber) {
+        return numbers.contains(lottoNumber);
     }
 
     private void validate(List<Integer> numbers) {

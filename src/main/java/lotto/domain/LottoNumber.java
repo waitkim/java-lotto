@@ -1,5 +1,7 @@
 package lotto.domain;
 
+import java.util.Objects;
+
 public class LottoNumber {
 
     private final int number;
@@ -12,14 +14,6 @@ public class LottoNumber {
     @Override
     public String toString() {
         return Integer.toString(number);
-    }
-
-    public int isHit(LottoNumber num) {
-        int hit = 0;
-        if (number == num.number) {
-            hit += 1;
-        }
-        return hit;
     }
 
     private void validateNumber(int number) {
