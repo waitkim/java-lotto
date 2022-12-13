@@ -13,7 +13,7 @@ public class WinningLotto {
         this.bonusNumber = new LottoNumber(bonusNumber);
     }
 
-    public int calculateHit(Lotto lotto) {
+    public long calculateHit(Lotto lotto) {
         return winningNumbers.hitCount(lotto);
     }
 

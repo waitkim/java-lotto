@@ -52,7 +52,7 @@ public class LottoGame {
         initializeWinningStatistic();
         // stream을 이용할 수 있을까?
         for (int i = 0; i < lottos.size(); i++) {
-            int hitCount = winningLotto.calculateHit(lottos.get(i));
+            long hitCount = winningLotto.calculateHit(lottos.get(i));
             int bonusHit = 0;
             if (winningLotto.calculateBonus(lottos.get(i))) {
                 bonusHit += 1;
@@ -61,7 +61,7 @@ public class LottoGame {
         }
     }
 
-    private void checkLottoHit(Map<Reward, Integer> map, int hit, int bonusHit) {
+    private void checkLottoHit(Map<Reward, Integer> map, long hit, int bonusHit) {
         // 효율 적인 방법?
         if (hit == 6) {
             map.put(Reward.FIRST, 1);

@@ -22,8 +22,8 @@ public class Lotto {
         System.out.println(numbers);
     }
 
-    public int hitCount(Lotto lotto) {
-        return (int) lotto.numbers.stream()
+    public long hitCount(Lotto lotto) {
+        return lotto.numbers.stream()
                 .filter(this::isHit)
                 .count();
     }
