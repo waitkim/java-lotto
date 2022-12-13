@@ -6,13 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Lotto {
-    private final List<Integer> numbers;
+    private final List<LottoNumber> numbers;
 
-    public Lotto(List<Integer> numbers) {
-        validate(numbers);
-        ArrayList<Integer> numbersToSort = new ArrayList<>(numbers);
+    public Lotto(List<Integer> randomNumbers) {
+        validate(randomNumbers);
+        ArrayList<Integer> numbersToSort = new ArrayList<>(randomNumbers);
         Collections.sort(numbersToSort);
-        this.numbers = numbersToSort;
+        numbers = new ArrayList<>();
+        for (Integer number : numbersToSort) {
+            numbers.add(new LottoNumber(number));
+        }
     }
 
     public void printNumbers() {
@@ -21,15 +24,16 @@ public class Lotto {
 
     public int compareNumber(Lotto lotto) {
         int count = 0;
+        // 인덴트 줄일 수 없을까? equals 오버라이딩하면 contain 쓸 수 있나?
         for (int i = 0; i < 6; i++) {
-            if (numbers.contains(lotto.numbers.get(i))) {
-                count += 1;
+            for (int j = 0; j < 6; j++) {
+                 count += numbers.get(i).isHit(lotto.numbers.get(j));
             }
         }
         return count;
     }
 
-    public int compareBonus(int number) {
+    public int compareBonus(LottoNumber number) {
         int bonus = 0;
         if (numbers.contains(number)) {
             bonus += 1;

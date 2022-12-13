@@ -10,8 +10,6 @@ import lotto.view.OutputView;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class LottoGame {
 
@@ -25,31 +23,32 @@ public class LottoGame {
 
     public void run() {
         try {
-            // 입력 , 구매
-            purchaseAmount = inputView.askPurchaseAmount();
-            lottos = lottoMaker.publishLottosByPurchaseAmount(purchaseAmount);
-            outputView.printLottos(lottos);
-
-            // 당첨번호 입력, 보너스 번호 입력
-            List<Integer> winningNumber = extractNumbers(inputView.askWinningNumbers());
-            String bonusNumber = inputView.askBonusNumber();
-            winningLotto = new WinningLotto(winningNumber, bonusNumber);
-
-            // 계산, 출력
-            calculateHit();
-            outputView.printStatistic(winningStatistic, calculateYield(winningStatistic, purchaseAmount));
+            publishLottos();
+            makeWinningLotto();
+            makeResult();
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
         }
     }
 
-    private List<Integer> extractNumbers(String winningNumbers) {
-        return Stream.of(winningNumbers.split("\\s*,\\s*"))
-                .map(s -> Integer.parseInt(s))
-                .collect(Collectors.toList());
+    private void publishLottos() {
+        purchaseAmount = inputView.askPurchaseAmount();
+        lottos = lottoMaker.publishLottosByPurchaseAmount(purchaseAmount);
+        outputView.printLottos(lottos);
     }
 
-    public void calculateHit() {
+    private void makeWinningLotto() {
+        List<Integer> winningNumber = inputView.askWinningNumbers();
+        int bonusNumber = inputView.askBonusNumber();
+        winningLotto = new WinningLotto(winningNumber, bonusNumber);
+    }
+
+    private void makeResult() {
+        calculateHit();
+        outputView.printStatistic(winningStatistic, calculateYield(winningStatistic, purchaseAmount));
+    }
+
+    private void calculateHit() {
         initializeWinningStatistic();
         // stream을 이용할 수 있을까?
         for (int i = 0; i < lottos.size(); i++) {
@@ -60,6 +59,7 @@ public class LottoGame {
     }
 
     private void checkLottoHit(Map<Reward, Integer> map, int hit, int bonusHit) {
+        // 효율 적인 방법?
         if (hit == 6) {
             map.put(Reward.FIRST, 1);
         }
@@ -85,7 +85,7 @@ public class LottoGame {
         winningStatistic.put(Reward.FIRST, 0);
     }
 
-    public double calculateYield(Map<Reward, Integer> winningStatistic, int purchaseAmount) {
+    private double calculateYield(Map<Reward, Integer> winningStatistic, int purchaseAmount) {
         int sum = winningStatistic.entrySet()
                 .stream()
                 .mapToInt(reward -> reward.getKey().getReward() * reward.getValue())
