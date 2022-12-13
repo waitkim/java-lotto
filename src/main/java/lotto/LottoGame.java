@@ -44,7 +44,7 @@ public class LottoGame {
     }
 
     private void makeResult() {
-        initializeWinningStatistic()
+        initializeWinningStatistic();
         for (Lotto lotto : lottos) {
             winningStatistic.put(winningLotto.checkHit(lotto),1);
         }
