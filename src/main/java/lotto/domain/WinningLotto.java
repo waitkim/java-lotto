@@ -1,6 +1,7 @@
 package lotto.domain;
 
 import java.util.List;
+import java.util.Map;
 
 public class WinningLotto {
 
@@ -13,12 +14,31 @@ public class WinningLotto {
         this.bonusNumber = new LottoNumber(bonusNumber);
     }
 
-    public long calculateHit(Lotto lotto) {
-        return winningNumbers.hitCount(lotto);
+    public Reward checkHit(Lotto lotto) {
+        long hitCount = 0;
+        boolean bonusHit;
+        hitCount = winningNumbers.hitCount(lotto);
+        bonusHit = lotto.isHit(bonusNumber);
+        return convertReward(hitCount, bonusHit);
     }
 
-    public boolean calculateBonus(Lotto lotto) {
-        return lotto.isHit(bonusNumber);
+    private Reward convertReward(long hitCount, boolean bonusHit) {
+        if (hitCount == 6) {
+            return Reward.FIRST;
+        }
+        if (hitCount == 5 && bonusHit) {
+            return Reward.SECOND;
+        }
+        if (hitCount == 5) {
+            return Reward.THIRD;
+        }
+        if (hitCount == 4) {
+            return Reward.FOURTH;
+        }
+        if (hitCount == 3) {
+            return Reward.FIFTH;
+        }
+        return Reward.BLANK;
     }
 
     private void validateWinningLotto(List<Integer> winningNumbers, int bonusNumber) {

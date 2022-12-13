@@ -44,40 +44,11 @@ public class LottoGame {
     }
 
     private void makeResult() {
-        calculateHit();
-        outputView.printStatistic(winningStatistic, calculateYield(winningStatistic, purchaseAmount));
-    }
-
-    private void calculateHit() {
         initializeWinningStatistic();
-        // stream을 이용할 수 있을까?
-        for (int i = 0; i < lottos.size(); i++) {
-            long hitCount = winningLotto.calculateHit(lottos.get(i));
-            int bonusHit = 0;
-            if (winningLotto.calculateBonus(lottos.get(i))) {
-                bonusHit += 1;
-            }
-            checkLottoHit(winningStatistic, hitCount, bonusHit);
+        for (Lotto lotto : lottos) {
+            winningStatistic.put(winningLotto.checkHit(lotto),1);
         }
-    }
-
-    private void checkLottoHit(Map<Reward, Integer> map, long hit, int bonusHit) {
-        // 효율 적인 방법?
-        if (hit == 6) {
-            map.put(Reward.FIRST, 1);
-        }
-        if (hit == 5 && bonusHit == 1) {
-            map.put(Reward.SECOND, 1);
-        }
-        if (hit == 5) {
-            map.put(Reward.THIRD, 1);
-        }
-        if (hit == 4) {
-            map.put(Reward.FOURTH, 1);
-        }
-        if (hit == 3) {
-            map.put(Reward.FIFTH, 1);
-        }
+        outputView.printStatistic(winningStatistic, calculateYield(winningStatistic, purchaseAmount));
     }
 
     private void initializeWinningStatistic() {
@@ -94,7 +65,6 @@ public class LottoGame {
                 .mapToInt(reward -> reward.getKey().getReward() * reward.getValue())
                 .sum();
 
-        //소수 첫째자리 반올림, 왜 박스가 생기지?
         return Math.round(sum * 1000 / purchaseAmount) / 10.0;
     }
 }

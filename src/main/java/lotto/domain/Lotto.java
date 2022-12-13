@@ -18,8 +18,18 @@ public class Lotto {
         }
     }
 
-    public void printNumbers() {
-        System.out.println(numbers);
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append("[");
+        for (LottoNumber number : numbers) {
+            string.append(number.toString());
+            string.append(", ");
+        }
+        string.deleteCharAt(string.length()-1);
+        string.deleteCharAt(string.length()-1);
+        string.append("]");
+        return string.toString();
     }
 
     public long hitCount(Lotto lotto) {

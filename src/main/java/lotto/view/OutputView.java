@@ -13,7 +13,7 @@ public class OutputView {
         System.out.println();
         System.out.println(lottos.size() + "개를 구매했습니다.");
         lottos.stream()
-                .forEach(Lotto::printNumbers);
+                .forEach(System.out::println);
     }
 
     public void printStatistic(Map<Reward, Integer> winningStatistic, double yield) {
