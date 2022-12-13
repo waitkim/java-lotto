@@ -15,14 +15,10 @@ public class WinningLotto {
     }
 
     public Reward checkHit(Lotto lotto) {
-        long hitCount = 0;
-        boolean bonusHit;
-        hitCount = winningNumbers.hitCount(lotto);
-        bonusHit = lotto.isHit(bonusNumber);
-        return convertReward(hitCount, bonusHit);
+        return getReward(winningNumbers.hitCount(lotto), lotto.isHit(bonusNumber));
     }
 
-    private Reward convertReward(long hitCount, boolean bonusHit) {
+    private Reward getReward(long hitCount, boolean bonusHit) {
         if (hitCount == 6) {
             return Reward.FIRST;
         }

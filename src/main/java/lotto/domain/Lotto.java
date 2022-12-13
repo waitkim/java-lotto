@@ -4,23 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Lotto {
     private final List<LottoNumber> numbers;
 
     public Lotto(List<Integer> randomNumbers) {
         validate(randomNumbers);
-        ArrayList<Integer> numbersToSort = new ArrayList<>(randomNumbers);
-        Collections.sort(numbersToSort);
-        numbers = new ArrayList<>();
-        for (Integer number : numbersToSort) {
-            numbers.add(new LottoNumber(number));
-        }
+        numbers = randomNumbers.stream()
+                .sorted()
+                .map(LottoNumber::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder();
+        final StringBuilder string = new StringBuilder();
         string.append("[");
         for (LottoNumber number : numbers) {
             string.append(number.toString());

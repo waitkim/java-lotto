@@ -21,7 +21,7 @@ public enum Reward {
         return sentence;
     }
 
-    Reward(int reward, String sentence) {
+    private Reward(int reward, String sentence) {
         this.reward = reward;
         this.sentence = sentence;
     }

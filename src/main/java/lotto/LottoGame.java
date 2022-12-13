@@ -15,36 +15,36 @@ public class LottoGame {
 
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
-    LottoMaker lottoMaker = new LottoMaker();
-    List<Lotto> lottos;
-    WinningLotto winningLotto;
-    EnumMap<Reward, Integer> winningStatistic = new EnumMap<>(Reward.class);
-    int purchaseAmount; // 포장 ?
 
     public void run() {
         try {
-            publishLottos();
-            makeWinningLotto();
-            makeResult();
+            final int purchaseAmount = getPurchaseAmount();
+            makeResult(publishLottos(purchaseAmount), makeWinningLotto(), purchaseAmount);
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
         }
     }
 
-    private void publishLottos() {
-        purchaseAmount = inputView.askPurchaseAmount();
-        lottos = lottoMaker.publishLottosByPurchaseAmount(purchaseAmount);
+    private List<Lotto> publishLottos(int purchaseAmount) {
+        final LottoMaker lottoMaker = new LottoMaker();
+        final List<Lotto> lottos = lottoMaker.publishLottosByPurchaseAmount(purchaseAmount);
         outputView.printLottos(lottos);
+        return lottos;
     }
 
-    private void makeWinningLotto() {
-        List<Integer> winningNumber = inputView.askWinningNumbers();
-        int bonusNumber = inputView.askBonusNumber();
-        winningLotto = new WinningLotto(winningNumber, bonusNumber);
+    private int getPurchaseAmount() {
+        return inputView.inputPurchaseAmount();
     }
 
-    private void makeResult() {
-        initializeWinningStatistic();
+    private WinningLotto makeWinningLotto() {
+        final List<Integer> winningNumber = inputView.inputWinningNumbers();
+        final int bonusNumber = inputView.inputBonusNumber();
+        return new WinningLotto(winningNumber, bonusNumber);
+    }
+
+    private void makeResult(List<Lotto> lottos, WinningLotto winningLotto, int purchaseAmount) {
+        final EnumMap<Reward, Integer> winningStatistic = new EnumMap<>(Reward.class);
+        initializeWinningStatistic(winningStatistic);
         for (Lotto lotto : lottos) {
             winningStatistic.put(winningLotto.checkHit(lotto),1);
         }
@@ -52,7 +52,7 @@ public class LottoGame {
         outputView.printStatistic(winningStatistic, calculateYield(winningStatistic, purchaseAmount));
     }
 
-    private void initializeWinningStatistic() {
+    private void initializeWinningStatistic(Map<Reward,Integer> winningStatistic) {
         winningStatistic.put(Reward.SECOND, 0);
         winningStatistic.put(Reward.THIRD, 0);
         winningStatistic.put(Reward.FOURTH, 0);
@@ -61,11 +61,11 @@ public class LottoGame {
     }
 
     private double calculateYield(Map<Reward, Integer> winningStatistic, int purchaseAmount) {
-        int sum = winningStatistic.entrySet()
+        final int sum = winningStatistic.entrySet()
                 .stream()
                 .mapToInt(reward -> reward.getKey().getReward() * reward.getValue())
                 .sum();
 
-        return Math.round(sum * 1000 / purchaseAmount) / 10.0;
+        return Math.round((double) sum * 1000 / purchaseAmount) / 10.0;
     }
 }
