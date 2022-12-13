@@ -44,10 +44,11 @@ public class LottoGame {
     }
 
     private void makeResult() {
-        initializeWinningStatistic();
+        initializeWinningStatistic()
         for (Lotto lotto : lottos) {
             winningStatistic.put(winningLotto.checkHit(lotto),1);
         }
+        winningStatistic.remove(Reward.BLANK);
         outputView.printStatistic(winningStatistic, calculateYield(winningStatistic, purchaseAmount));
     }
 
