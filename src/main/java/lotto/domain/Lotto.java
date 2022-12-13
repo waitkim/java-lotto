@@ -22,26 +22,14 @@ public class Lotto {
         System.out.println(numbers);
     }
 
-    public int compareNumber(Lotto lotto) {
-        int count = 0;
-        for (int i = 0; i < 6; i++) {
-            if (lotto.hitCount(numbers.get(i))) {
-                count += 1;
-            }
-        }
-        return count;
+    public int hitCount(Lotto lotto) {
+        return (int) lotto.numbers.stream()
+                .filter(this::isHit)
+                .count();
     }
 
-    public int compareBonus(LottoNumber number) {
-        int bonus = 0;
-        if (numbers.contains(number)) {
-            bonus += 1;
-        }
-        return bonus;
-    }
-
-    private boolean hitCount(LottoNumber lottoNumber) {
-        return numbers.contains(lottoNumber);
+    public boolean isHit(LottoNumber number) {
+        return numbers.contains(number);
     }
 
     private void validate(List<Integer> numbers) {

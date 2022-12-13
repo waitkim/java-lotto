@@ -53,7 +53,10 @@ public class LottoGame {
         // stream을 이용할 수 있을까?
         for (int i = 0; i < lottos.size(); i++) {
             int hitCount = winningLotto.calculateHit(lottos.get(i));
-            int bonusHit = winningLotto.calculateBonus(lottos.get(i));
+            int bonusHit = 0;
+            if (winningLotto.calculateBonus(lottos.get(i))) {
+                bonusHit += 1;
+            }
             checkLottoHit(winningStatistic, hitCount, bonusHit);
         }
     }

@@ -14,11 +14,11 @@ public class WinningLotto {
     }
 
     public int calculateHit(Lotto lotto) {
-        return winningNumbers.compareNumber(lotto);
+        return winningNumbers.hitCount(lotto);
     }
 
-    public int calculateBonus(Lotto lotto) {
-        return lotto.compareBonus(bonusNumber);
+    public boolean calculateBonus(Lotto lotto) {
+        return lotto.isHit(bonusNumber);
     }
 
     private void validateWinningLotto(List<Integer> winningNumbers, int bonusNumber) {
